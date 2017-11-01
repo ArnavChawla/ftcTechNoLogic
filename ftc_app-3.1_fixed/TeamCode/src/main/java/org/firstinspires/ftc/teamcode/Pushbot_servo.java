@@ -42,53 +42,30 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.HardwarePushbot_TuesdayClass;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-
-/**
- * This file provides basic Telop driving for a Pushbot robot.
- * The code is structured as an Iterative OpMode
- *
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
- * All device access is managed through the HardwarePushbot class.
- *
- * This particular OpMode executes a basic Tank Drive Teleop for a PushBot
- * It raises and lowers the claw using the Gampad Y and A buttons respectively.
- * It also opens and closes the claws slowly using the left and right Bumper buttons.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
-@TeleOp(name="Pushbot: Teleop servo arnav", group="Pushbot")
+//create the teleop so that it can be used in the app
+@TeleOp(name="Main teleop", group="Pushbot")
 
 public class Pushbot_servo extends OpMode{
 
     /* Declare OpMode members. */
-    HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass(); // use the class created to define a Pushbot's hardware
-                                                         // could also use HardwarePushbotMatrix class.
-    double          currentPosition  = 0.7;
-    double          currentPosition2  = 0.2 ;
-    double clawOffset2 = -0.4;// Servo mid position
-    final double    CLAW_SPEED  = 0.02 ;
-    private ElapsedTime runtime = new ElapsedTime();
+            //
+            HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass(); // use the class created to define a Pushbot's hardware
+            double currentPosition = 0.7;
+            double          currentPosition2  = 0.2;
+            double rackPower = 0.35;//the speed at which the rack and pinion moves
+            double clawOffset2 = -0.4;// Servo mid position
 
-    // sets rate to move servo
-//Servo myServo;
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-        @Override
-        public void init() {
+            @Override
+            public void init() {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
+        //get the hardware map and set the positions to meet the constrains
             robot.init(hardwareMap);
-            robot.myServo.setPosition(1.0 );
-            robot.myServo2.setPosition(0.0);
-
-            // Send telemetry message to signify robot waiting;
-            runtime.reset();
-    }
+            robot.myServo.setPosition(0.6);
+            robot.myServo2.setPosition(0.3);
+        }
 
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
@@ -110,24 +87,38 @@ public class Pushbot_servo extends OpMode{
     @Override
     public void loop(){
 
-//        double left;
-//        double right;
-//
-//        // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-//        left = -gamepad1.left_trigger;
-//        right = gamepad1.right_trigger;
-//        robot.leftMotor.setPower(left);
-//        robot.rightMotor.setPower(right);
+
+        //code to move the rack and pinion
+        if(gamepad1.left_trigger > 0 && gamepad1.right_trigger > 0)
+        {
+            telemetry.addData("Press only one button at a time", "abc");
+            return;
+        }
+        // if upper touch sensor triggered set power to 0 and disable upper direction
+        else if (gamepad1.right_trigger == 1 && !robot.uTouchSensor.isPressed())
+        {
+            robot.clawMotor.setPower(rackPower);
+        }
+        // if lower touch sensor triggered set power to 0 and disable lower direction
+        else if (gamepad1.left_trigger == 1 && !robot.dTouchSensor.isPressed())
+        {
+            robot.clawMotor.setPower(-rackPower);
+        }
+        else
+        {
+            robot.clawMotor.setPower(0);
+        }
+        //code to actually move the robot
         double left;
         double right;
-        left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
+        left = gamepad1.left_stick_y;
+        right = gamepad1.right_stick_y;
         robot.leftMotor.setPower(left);
         robot.rightMotor.setPower(right);
-
+        //limit the amount that the servos can move clipping the range
         currentPosition = Range.clip(currentPosition, 0.4, 0.8 );
             currentPosition2 = Range.clip(currentPosition2,0.2 , 0.45);
-            telemetry.addData("Say", "Hello Driver");
+            // if the right bumper is pressed move the servos inward to pick up the blocks
             if (gamepad1.right_bumper) {
                 robot.myServo.setPosition(currentPosition + 0.1);
                 robot.myServo2.setPosition(currentPosition2 - 0.1);
@@ -136,36 +127,15 @@ public class Pushbot_servo extends OpMode{
                     currentPosition2 -= 0.1;
 
             }
+            // if the left bumper move them outward to drop the blocks
             if (gamepad1.left_bumper) {
                 robot.myServo.setPosition(currentPosition - 0.1);
                 robot.myServo2.setPosition(currentPosition2 + 0.1);
 
-                    currentPosition -= 0.1;
-                    currentPosition2 += 0.1;
+                currentPosition -= 0.1;
+                currentPosition2 += 0.1;
 
             }
-
-        telemetry.addData("servo", currentPosition);
-        telemetry.addData("servo2", currentPosition2);
-        if(gamepad1.dpad_down)
-        {
-            runtime.reset();
-        }
-        runtime.reset();
-        if(gamepad1.left_trigger > 0 && gamepad1.right_trigger > 0)
-        {
-            telemetry.addData("Press only one button at a time", "abc");
-            return;
-        }
-
-        if(gamepad1.right_trigger > 0)
-        {
-            robot.clawMotor.setPower(gamepad1.right_trigger);
-        }
-        if(gamepad1.left_trigger > 0)
-        {
-            robot.clawMotor.setPower(-gamepad1.left_trigger);
-        }
 
     }
 
