@@ -29,10 +29,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
@@ -69,9 +67,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Corner1", group ="Concept")
+@Autonomous(name="Corner2", group ="Concept")
 
-public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
+public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
     HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass();
@@ -84,6 +82,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
     OpenGLMatrix lastLocation = null;
+
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -141,10 +140,11 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
         waitForStart();
 
         relicTrackables.activate();
-
-        encoderDrive(DRIVE_SPEED, -38/2,-38/2, 10);
+        encoderDrive(DRIVE_SPEED, -25/2,-25/2, 10);
+        encoderDrive(TURN_SPEED,   5.0065, -5.0065, 4.0);
+        encoderDrive(DRIVE_SPEED, -23/2,-23/2, 10);
         encoderDrive(TURN_SPEED,   -5.0065, 5.0065, 4.0);
-        encoderDrive(DRIVE_SPEED, -21/2,-21/2, 10);
+        encoderDrive(DRIVE_SPEED, -19/2,-19/2, 10);
         robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
         while (opModeIsActive()) {
@@ -190,6 +190,8 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
             else {
                 telemetry.addData("VuMark", "not visible");
             }
+
+
 
             telemetry.update();
         }
