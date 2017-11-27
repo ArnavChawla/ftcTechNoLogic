@@ -79,8 +79,8 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
+    static final double     DRIVE_SPEED             = 0.3;
+    static final double     TURN_SPEED              = 0.25;
     OpenGLMatrix lastLocation = null;
 
     /**
@@ -140,9 +140,9 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
         relicTrackables.activate();
         encoderDrive(DRIVE_SPEED, 25/2,25/2, 10);
         encoderDrive(TURN_SPEED,   5.0065, -5.0065, 4.0);
-        encoderDrive(DRIVE_SPEED, -11/2,-11/2, 10);
+        encoderDrive(DRIVE_SPEED, -15/2,-15/2, 10);
         encoderDrive(TURN_SPEED,   5.0065, -5.0065, 4.0);
-        encoderDrive(DRIVE_SPEED, -19/2,-19/2, 10);
+        encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
         robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
         while (opModeIsActive()) {
