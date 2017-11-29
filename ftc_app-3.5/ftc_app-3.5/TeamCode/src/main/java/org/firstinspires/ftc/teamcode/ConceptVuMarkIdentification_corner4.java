@@ -195,6 +195,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
 
                 if(vuMark == RelicRecoveryVuMark.CENTER && !didRun)
                 {
+                    telemetry.addData("VuMark", "%s visible", vuMark);
                     encoderDrive(DRIVE_SPEED, 35/2, 35/2, 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
@@ -213,6 +214,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                 }
                 else if(vuMark == RelicRecoveryVuMark.LEFT && !didRun)
                 {
+                    telemetry.addData("VuMark", "%s visible", vuMark);
                     encoderDrive(DRIVE_SPEED, ((35/2)-3.75), ((35/2) -3.75), 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
@@ -231,6 +233,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                 }
                 else  if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun)
                 {
+                    telemetry.addData("VuMark", "%s visible", vuMark);
                     encoderDrive(DRIVE_SPEED, (35/2)+3.75, (35/2)+3.75, 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
@@ -250,6 +253,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
 			{
                 if(!didRun)
                 {
+                    telemetry.addData("VuMark", "%s visible", vuMark);
                     encoderDrive(DRIVE_SPEED, 35/2, 35/2, 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 

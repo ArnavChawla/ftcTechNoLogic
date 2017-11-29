@@ -48,6 +48,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import static com.sun.tools.javac.util.Constants.format;
+
 /**
  * This OpMode illustrates the basics of using the Vuforia engine to determine
  * the identity of Vuforia VuMarks encountered on the field. The code is structured as
@@ -74,22 +76,23 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
     public static final String TAG = "Vuforia VuMark Sample";
     HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass();
     private ElapsedTime runtime = new ElapsedTime();
-    static final double     COUNTS_PER_MOTOR_REV    = 1220 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double COUNTS_PER_MOTOR_REV = 1220;    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
+    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.3;
-    static final double     TURN_SPEED              = 0.25;
+    static final double DRIVE_SPEED = 0.3;
+    static final double TURN_SPEED = 0.25;
     OpenGLMatrix lastLocation = null;
-
+    boolean didRun = false;
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
     VuforiaLocalizer vuforia;
 
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
         robot.init(hardwareMap);
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
@@ -133,21 +136,28 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-	    boolean bLedOn = true;
+        boolean bLedOn = true;
         // Set the LED in the beginning
         robot.jewelSensor.enableLed(bLedOn);
-		
-		initArm();
+
+
 
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
+        initArm();
+
+        /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
+         * it is perhaps unlikely that you will actually need to act on this pose information, but
+         * we illustrate it nevertheless, for completeness. */
+       // RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
         waitForStart();
 
         relicTrackables.activate();
 
 
-		extendArm();
+        extendArm();
         ThrowJewelBlueTile();
         retractArm();
 
@@ -159,135 +169,127 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
              * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
              * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
              */
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+           RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+           if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
-                /* Found an instance of the template. In the actual game, you will probably
-                 * loop until this condition occurs, then move on to act accordingly depending
-                 * on which VuMark was visible. */
+               /* Found an instance of the template. In the actual game, you will probably
+                * loop until this condition occurs, then move on to act accordingly depending
+                * on which VuMark was visible. */
+               telemetry.addData("VuMark", "%s visible", vuMark);
+
+               /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
+                * it is perhaps unlikely that you will actually need to act on this pose information, but
+                * we illustrate it nevertheless, for completeness. */
+               OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
+               telemetry.addData("Pose", format(pose));
+
+               /* We further illustrate how to decompose the pose into useful rotational and
+                * translational components */
+               if (pose != null) {
+                   VectorF trans = pose.getTranslation();
+                   Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+                   // Extract the X, Y, and Z components of the offset of the target relative to the robot
+                   double tX = trans.get(0);
+                   double tY = trans.get(1);
+                   double tZ = trans.get(2);
+
+                   // Extract the rotational components of the target relative to the robot
+                   double rX = rot.firstAngle;
+                   double rY = rot.secondAngle;
+                   double rZ = rot.thirdAngle;
+               }
+           }
+
+            if (vuMark == RelicRecoveryVuMark.CENTER && !didRun) {
                 telemetry.addData("VuMark", "%s visible", vuMark);
+                encoderDrive(DRIVE_SPEED, 25 / 2, 25 / 2, 10);
+                encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                encoderDrive(DRIVE_SPEED, -15 / 2, -15 / 2, 10);
+                encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                encoderDrive(DRIVE_SPEED, -5 / 2, -5 / 2, 10);
 
-                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-                 * it is perhaps unlikely that you will actually need to act on this pose information, but
-                 * we illustrate it nevertheless, for completeness. */
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
-                telemetry.addData("Pose", format(pose));
+                robot.leftMotor.setPower(0);
+                robot.rightMotor.setPower(0);
 
-                /* We further illustrate how to decompose the pose into useful rotational and
-                 * translational components */
-                if (pose != null) {
-                    VectorF trans = pose.getTranslation();
-                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                robot.myServo.setPosition(1);
+                robot.myServo2.setPosition(0);
 
-                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                    double tX = trans.get(0);
-                    double tY = trans.get(1);
-                    double tZ = trans.get(2);
+                encoderDrive(0.3, -8 / 2, -8 / 2, 10);
+                robot.rightMotor.setPower(0);
+                robot.leftMotor.setPower(0);
 
-                    // Extract the rotational components of the target relative to the robot
-                    double rX = rot.firstAngle;
-                    double rY = rot.secondAngle;
-                    double rZ = rot.thirdAngle;
-                }
+                didRun = true;
+            } else if (vuMark == RelicRecoveryVuMark.LEFT && !didRun) {
+                telemetry.addData("VuMark", "%s visible", vuMark);
+                encoderDrive(DRIVE_SPEED, 25 / 2, 25 / 2, 10);
+                encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                encoderDrive(DRIVE_SPEED, ((-15 / 2) + 3.75), ((-15 / 2) + 3.75), 10);
+                encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                encoderDrive(DRIVE_SPEED, -5 / 2, -5 / 2, 10);
 
-				if(vuMark == RelicRecoveryVuMark.CENTER && !didRun)
-                {
+                robot.rightMotor.setPower(0);
+                robot.leftMotor.setPower(0);
 
-				     encoderDrive(DRIVE_SPEED, 25/2,25/2, 10);
-                     encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                     encoderDrive(DRIVE_SPEED, -15/2,-15/2, 10);
-                     encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                     encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
+                robot.myServo.setPosition(1);
+                robot.myServo2.setPosition(0);
 
-                     robot.leftMotor.setPower(0);
-                     robot.rightMotor.setPower(0);
-				     
-					 robot.myServo.setPosition(1);
-                     robot.myServo2.setPosition(0);
+                encoderDrive(0.3, -8 / 2, -8 / 2, 10);
+                robot.rightMotor.setPower(0);
+                robot.leftMotor.setPower(0);
 
-                     encoderDrive(0.3, -8/2, -8/2, 10);
-                     robot.rightMotor.setPower(0);
-                     robot.leftMotor.setPower(0);
-                    
-					 didRun = true;
-                }
-                else if(vuMark == RelicRecoveryVuMark.LEFT && !didRun)
-                {
+                didRun = true;
+            } else if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun) {
+                telemetry.addData("VuMark", "%s visible", vuMark);
+                encoderDrive(DRIVE_SPEED, 25 / 2, 25 / 2, 10);
+                encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                encoderDrive(DRIVE_SPEED, ((-15 / 2) - 3.75), ((-15 / 2) - 3.75), 10);
+                encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                encoderDrive(DRIVE_SPEED, -5 / 2, -5 / 2, 10);
 
-				    encoderDrive(DRIVE_SPEED, 25/2,25/2, 10);
-                    encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                    encoderDrive(DRIVE_SPEED, ((-15/2) + 3.75), ((-15/2) + 3.75), 10);
-                    encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                    encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
+                robot.rightMotor.setPower(0);
+                robot.leftMotor.setPower(0);
 
-                    robot.rightMotor.setPower(0);
+                robot.myServo.setPosition(1);
+                robot.myServo2.setPosition(0);
+
+                encoderDrive(0.3, -8 / 2, -8 / 2, 10);
+                robot.rightMotor.setPower(0);
+                robot.leftMotor.setPower(0);
+
+                didRun = true;
+            } else {
+                if (!didRun) {
+                    telemetry.addData("VuMark", "%s visible", vuMark);
+                    encoderDrive(DRIVE_SPEED, 25 / 2, 25 / 2, 10);
+                    encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                    encoderDrive(DRIVE_SPEED, -15 / 2, -15 / 2, 10);
+                    encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
+                    encoderDrive(DRIVE_SPEED, -5 / 2, -5 / 2, 10);
+
                     robot.leftMotor.setPower(0);
-
-                    robot.myServo.setPosition(1);
-                    robot.myServo2.setPosition(0);
-                    
-					encoderDrive(0.3, -8/2, -8/2, 10);
                     robot.rightMotor.setPower(0);
-                    robot.leftMotor.setPower(0);
-                    
-					didRun = true;
-                }
-                else  if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun)
-                {
-
-				    encoderDrive(DRIVE_SPEED, 25/2,25/2, 10);
-                    encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                    encoderDrive(DRIVE_SPEED, ((-15/2) - 3.75), ((-15/2) - 3.75), 10);
-                    encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                    encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
-
-                    robot.rightMotor.setPower(0);
-                    robot.leftMotor.setPower(0);
 
                     robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
 
-                    encoderDrive(0.3, -8/2, -8/2, 10);
+                    encoderDrive(0.3, -8 / 2, -8 / 2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
 
                     didRun = true;
                 }
 
-            }
-
-            else 
-			{
-			    if(!didRun)
-                {
-
-				     encoderDrive(DRIVE_SPEED, 25/2,25/2, 10);
-                     encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                     encoderDrive(DRIVE_SPEED, -15/2,-15/2, 10);
-                     encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
-                     encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
-
-                     robot.leftMotor.setPower(0);
-                     robot.rightMotor.setPower(0);
-				     
-					 robot.myServo.setPosition(1);
-                     robot.myServo2.setPosition(0);
-
-                     encoderDrive(0.3, -8/2, -8/2, 10);
-                     robot.rightMotor.setPower(0);
-                     robot.leftMotor.setPower(0);
-                    
-					 didRun = true;
-                }
-			    
                 telemetry.addData("VuMark", "not visible");
             }
 
 
-
             telemetry.update();
         }
+
     }
+
+
 
     String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
