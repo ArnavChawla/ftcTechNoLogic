@@ -134,6 +134,13 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
+	   boolean bLedOn = true;
+        // Set the LED in the beginning
+        robot.jewelSensor.enableLed(bLedOn);
+		
+		initArm();
+
+
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
         waitForStart();
@@ -143,10 +150,9 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
         robot.myServo2.setPosition(0.6);
         //robot.newRackMotor.setPower(0);
 
-
-
-
-
+		extendArm();
+        ThrowJewelBlueTile();
+        retractArm();
 
         while (opModeIsActive()) {
 
@@ -326,4 +332,127 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
+
+
+	public void initArm()
+	{
+	    //initilize the arm
+        robot.shoulder.setPosition(1);
+        robot.elbow.setPosition(1);
+        robot.wrist.setPosition(0.5);
+	}
+
+	 public void retractArm()
+    {
+
+        double shoulderAngle = ( 1 - (100* 0.005));
+        double elbowAngle = (1- (100* 0.009));
+
+        for(int i = 0; i <100; i++)
+        {
+            //shoulder angle - 0.005, elbow 0.01
+            shoulderAngle = shoulderAngle + 0.005;
+            elbowAngle = elbowAngle + 0.009;
+            robot.elbow.setPosition(elbowAngle);
+            robot.shoulder.setPosition(shoulderAngle);
+            if(i==50)//half way
+            {
+                robot.wrist.setPosition(0.5);
+            }
+        }
+    }
+
+    public void extendArm()
+    {
+
+        double shoulderAngle = 1;
+        double elbowAngle = 1;
+        for(int i = 0; i <100; i++)
+        {
+            //shoulder angle - 0.005, elbow 0.01
+            shoulderAngle = shoulderAngle - 0.005;
+            elbowAngle = elbowAngle - 0.009;
+            robot.elbow.setPosition(elbowAngle);
+            robot.shoulder.setPosition(shoulderAngle);
+        }
+    }
+
+    public void ThrowJewelRedTile()
+    {
+       if(isRedColorLeft() == true)
+       {
+           //see red on left
+           //move to right to push blue ball
+           for(int i = 0; i <= 10; i++)
+           {
+               robot.wrist.setPosition(0.5 + 0.05*i);
+           }
+       }
+       else
+       {
+           //see blue on left
+           //move left to push blue ball
+           for(int i = 0; i <= 10; i++)
+           {
+               robot.wrist.setPosition(0.5 - 0.05*i);
+           }
+       }
+
+       //robot.wrist.setPosition(0.5);//bring to center
+    }
+
+    public void ThrowJewelBlueTile()
+    {
+        if(isRedColorLeft() == false)
+        {
+            //see blue on left
+            //move to right to push red ball
+            for(int i = 0; i <= 10; i++)
+            {
+                robot.wrist.setPosition(0.5 + 0.05*i);
+            }
+        }
+        else
+        {
+            //see red on left
+            //move left to push red ball
+            for(int i = 0; i <= 10; i++)
+            {
+                robot.wrist.setPosition(0.5 - 0.05*i);
+            }
+
+        }
+
+        //robot.wrist.setPosition(0.5);//bring to center
+
+    }
+
+    public boolean isRedColorLeft()
+    {
+
+        double wristPosition = 0.5;
+        while( (robot.jewelSensor.red()< 4 ) && (robot.jewelSensor.blue()< 4)) {
+            wristPosition = wristPosition - 0.005;
+            robot.wrist.setPosition(wristPosition);
+            
+			/*telemetry.addData("Red  ", robot.jewelSensor.red());
+            telemetry.addData("Blue ", robot.jewelSensor.blue());
+            telemetry.addData("shoulder angle ", robot.shoulder.getPosition());
+            telemetry.addData("elbow angle ", robot.elbow.getPosition());
+            telemetry.addData("wrist angle ", robot.wrist.getPosition());
+            telemetry.update();*/
+        }
+
+       //see color
+        if(robot.jewelSensor.red()>robot.jewelSensor.blue())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 }

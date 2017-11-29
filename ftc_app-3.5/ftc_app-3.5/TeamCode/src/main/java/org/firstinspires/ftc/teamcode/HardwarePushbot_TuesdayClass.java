@@ -24,15 +24,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class HardwarePushbot_TuesdayClass
 {
-    TouchSensor uTouchSensor = null;
-    TouchSensor dTouchSensor = null;
-    TouchSensor uTouch2 = null;
-    TouchSensor dTouch2 = null;
+    public ColorSensor jewelSensor = null;
+	public Servo shoulder = null;
+	public Servo elbow = null;
+	public Servo wrist = null;
+
+    TouchSensor uSensor1 = null;
+    TouchSensor dSensor1 = null;
+    TouchSensor uSensor2 = null;
+    TouchSensor dSensor2 = null;
+
     /* Public OpMode members. */
-    public DcMotor  newRackMotor  = null;
+	public DcMotor  clawMotor1   = null;
+	public DcMotor  clawMotor2   = null;
+
+
     public DcMotor  leftMotor   = null;
-    public DcMotor  clawMotor   = null;
     public DcMotor  rightMotor  = null;
+
     public  Servo myServo = null;
     public  Servo myServo2 = null;
     public static final double MID_SERVO       =  0.5 ;
@@ -53,17 +62,27 @@ public class HardwarePushbot_TuesdayClass
         // Save reference to Hardware map
         hwMap = ahwMap;
 
+
+
         // Define and Initialize Motors
-        uTouchSensor= hwMap.touchSensor.get("u_touch_sensor");
-        dTouchSensor= hwMap.touchSensor.get("d_touch_sensor");
-        uTouch2 = hwMap.touchSensor.get("u_touch_2");
-        dTouch2 = hwMap.touchSensor.get("d_touch_2");
+		jewelSensor = hwMap.colorSensor.get("jewel_sensor");
+		shoulder = hwMap.servo.get("shoulder_servo");
+		elbow = hwMap.servo.get("elbow_servo");
+		wrist = hwMap.servo.get("wrist_servo");
+
+        uSensor1= hwMap.touchSensor.get("u_sensor_one");
+        dSensor1= hwMap.touchSensor.get("d_sensor_one");
+        uSensor2 = hwMap.touchSensor.get("u_sensor_two");
+        dSensor2 = hwMap.touchSensor.get("d_sensor_two");
+
+		clawMotor1 = hwMap.dcMotor.get("claw_motor_one");
+		clawMotor2 = hwMap.dcMotor.get("claw_motor_two");
+
         leftMotor   = hwMap.dcMotor.get("left_drive");
         rightMotor  = hwMap.dcMotor.get("right_drive");
-        clawMotor = hwMap.dcMotor.get("claw_motor");
+      
         myServo = hwMap.servo.get("one_servo");
         myServo2 = hwMap.servo.get("two_servo");
-        newRackMotor = hwMap.dcMotor.get("rack_motor");
         //armMotor    = hwMap.dcMotor.get("left_arm");
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors

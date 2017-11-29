@@ -92,52 +92,64 @@ public class Pushbot_servo extends OpMode{
         {
             telemetry.addData("Press only one button at a time", "abc");
             return;
-        }
-        // if upper touch sensor triggered set power to 0 and disable upper direction
-        else if (gamepad1.right_trigger == 1 )
+        } else if(gamepad1.right_trigger == 1)//go up button is pressed
+		
+		{
+        if(!robot.uSensor2.isPressed())// 2nd beam can move up
         {
-            if(!robot.uTouch2.isPressed()) {
-                robot.newRackMotor.setPower(-rackPower);
-            }
-            else
+            telemetry. addLine("Motor two up");
+            robot.clawMotor2.setPower(-rackPower);//2nd beam go up
+        }
+        else//2nd beam reached top
+        {
+           robot.clawMotor2.setPower(0);//stop 2nd beam motor
+            telemetry. addLine("Motor two off");
+            if(!robot.uSensor1.isPressed())//1st beam can go up
             {
-                robot.newRackMotor.setPower(0);
-                if(!robot.uTouchSensor.isPressed()) {
-                    robot.clawMotor.setPower(rackPower);
-                }
-                else
-                {
-                    robot.clawMotor.setPower(0);
-                }
+                telemetry. addLine("Motor one up");
+                robot.clawMotor1.setPower(rackPowerMotorOneUp/*-rackPower*/);//1st beam go up
             }
+            else//1st beam reached top
+            {
+                robot.clawMotor1.setPower(0);//stop 1st beam motor
+                telemetry. addLine("Motor one off");
+            }
+        }
+//      motor one and motor two are switched
+        //motor one needs negative power to go up
+        //motor two needs negative power to go up
+        //
 
+    } else if (gamepad1.left_trigger == 1)//go down button pressed
+    {
+        if(!robot.dSensor1.isPressed())//1st beam can move down
+        {
+            telemetry. addLine("Motor one down");
+            robot.clawMotor1.setPower(rackPower);//1st beam go down
         }
+        else//1st beam reached bottom
+        {
+            robot.clawMotor1.setPower(0);//stop 1st beam motor
+            telemetry. addLine("Motor one off");
+            if(!robot.dSensor2.isPressed())//2nd beam can go down
+            {
+                robot.clawMotor2.setPower(rackPower);//2nd beam go down
+                telemetry. addLine("Motor two down");
+            }
+            else//2nd beam reached bottom
+            {
+                robot.clawMotor2.setPower(0);//stop 2nd beam motor
+                telemetry. addLine("Motor two off");
+            }
+        }
+    } else{
 
-        // if lower touch sensor triggered set power to 0 and disable lower direction
-        else if (gamepad1.left_trigger == 1 )
-        {
-            if(!robot.dTouchSensor.isPressed())
-            {
-                robot.clawMotor.setPower(-rackPower);
-            }
-            else
-            {
-                robot.newRackMotor.setPower(0);
-                if(!robot.dTouch2.isPressed())
-                {
-                    robot.newRackMotor.setPower(rackPower);
-                }
-                else
-                {
-                    robot.newRackMotor.setPower(0);
-                }
-            }
-        }
-        else
-        {
-            robot.newRackMotor.setPower(0);
-            robot.clawMotor.setPower(0);
-        }
+        robot.clawMotor2.setPower(0);
+        robot.clawMotor1.setPower(0);
+    }
+    
+
+
 
         //code to actually move the robot
         double left;
