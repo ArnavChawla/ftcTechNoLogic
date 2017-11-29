@@ -186,6 +186,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
                 }
+
                 if(vuMark == RelicRecoveryVuMark.CENTER && !didRun)
                 {
                     encoderDrive(DRIVE_SPEED, 35/2, 35/2, 10);
@@ -194,34 +195,40 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-                    robot.myServo.setPosition(1);
+                    
+					robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
+
                     encoderDrive(0.3, -8/2, -8/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-                    didRun = true;
+                    
+					didRun = true;
                 }
                 else if(vuMark == RelicRecoveryVuMark.LEFT && !didRun)
                 {
-                    encoderDrive(DRIVE_SPEED, ((35)/2)-3.75, (35/2) -3.75, 10);
+                    encoderDrive(DRIVE_SPEED, ((35/2)-3.75), ((35/2) -3.75), 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
+
                     robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
-                    encoderDrive(0.3, -8/2, -8/2, 10);
+                    
+					encoderDrive(0.3, -8/2, -8/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-                    didRun = true;
+                    
+					didRun = true;
                 }
                 else  if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun)
                 {
                     encoderDrive(DRIVE_SPEED, (35/2)+3.75, (35/2)+3.75, 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
-
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
+
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
                     robot.myServo.setPosition(1);
@@ -233,8 +240,8 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                 }
 
             }
-
-            else {
+            else 
+			{
                 if(!didRun)
                 {
                     encoderDrive(DRIVE_SPEED, 35/2, 35/2, 10);
@@ -243,23 +250,29 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-                    robot.myServo.setPosition(1);
+            
+			        robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
-                    encoderDrive(0.3, -8/2, -8/2, 10);
-                    robot.rightMotor.setPower(0);
+            
+			        encoderDrive(0.3, -8/2, -8/2, 10);
+            
+			        robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
                     didRun = true;
                 }
+				telemetry.addData("VuMark", "not visible");
             }
 
             telemetry.update();
         }
-    }
+   }
 
-    String format(OpenGLMatrix transformationMatrix) {
+
+   String format(OpenGLMatrix transformationMatrix) {
        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
    }
-    public void encoderDrive(double speed,
+
+   public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
         int newLeftTarget;

@@ -48,24 +48,24 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 public class Pushbot_servo extends OpMode{
 
     /* Declare OpMode members. */
-            //
-            HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass(); // use the class created to define a Pushbot's hardware
-            double currentPosition = 0.7;
-            double          currentPosition2  = 0.2;
-            double rackPower = 0.35;//the speed at which the rack and pinion moves
-            double clawOffset2 = -0.4;// Servo mid position
+	//
+	HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass(); // use the class created to define a Pushbot's hardware
+    double currentPosition = 0.7;
+    double currentPosition2  = 0.2;
+    double rackPower = 0.35;//the speed at which the rack and pinion moves
+    double clawOffset2 = -0.4;// Servo mid position
 
 
-            @Override
-            public void init() {
+    @Override
+    public void init() {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
         //get the hardware map and set the positions to meet the constrains
-            robot.init(hardwareMap);
-            robot.myServo.setPosition(0.6);
-            robot.myServo2.setPosition(0.3);
-        }
+		robot.init(hardwareMap);
+		robot.myServo.setPosition(0.6);
+		robot.myServo2.setPosition(0.3);
+    }
 
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
@@ -138,6 +138,7 @@ public class Pushbot_servo extends OpMode{
             robot.newRackMotor.setPower(0);
             robot.clawMotor.setPower(0);
         }
+
         //code to actually move the robot
         double left;
         double right;
@@ -147,25 +148,28 @@ public class Pushbot_servo extends OpMode{
         robot.rightMotor.setPower(right);
         //limit the amount that the servos can move clipping the range
         currentPosition = Range.clip(currentPosition, 0.4, 0.8 );
-            currentPosition2 = Range.clip(currentPosition2,0.2 , 0.45);
-            // if the right bumper is pressed move the servos inward to pick up the blocks
-            if (gamepad1.right_bumper) {
-                robot.myServo.setPosition(currentPosition + 0.1);
-                robot.myServo2.setPosition(currentPosition2 - 0.1);
+		currentPosition2 = Range.clip(currentPosition2, 0.2 , 0.45);
+		
+		// if the right bumper is pressed move the servos inward to pick up the blocks
+		if (gamepad1.right_bumper) 
+		{
+			robot.myServo.setPosition(currentPosition + 0.1);
+			robot.myServo2.setPosition(currentPosition2 - 0.1);
 
-                    currentPosition += 0.1;
-                    currentPosition2 -= 0.1;
+			currentPosition += 0.1;
+			currentPosition2 -= 0.1;
 
-            }
-            // if the left bumper move them outward to drop the blocks
-            if (gamepad1.left_bumper) {
-                robot.myServo.setPosition(currentPosition - 0.1);
-                robot.myServo2.setPosition(currentPosition2 + 0.1);
+		}
+		
+		// if the left bumper move them outward to drop the blocks
+		if (gamepad1.left_bumper) {
+			robot.myServo.setPosition(currentPosition - 0.1);
+			robot.myServo2.setPosition(currentPosition2 + 0.1);
 
-                currentPosition -= 0.1;
-                currentPosition2 += 0.1;
+			currentPosition -= 0.1;
+			currentPosition2 += 0.1;
 
-            }
+		}
 
     }
 
