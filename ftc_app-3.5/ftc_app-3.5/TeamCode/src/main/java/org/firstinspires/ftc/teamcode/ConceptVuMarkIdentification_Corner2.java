@@ -161,7 +161,7 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
 
         pictoTime.reset();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        while (pictoTime.seconds() <= 10 )
+        while (pictoTime.seconds() <= 4 )
         {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if(vuMark != RelicRecoveryVuMark.UNKNOWN)

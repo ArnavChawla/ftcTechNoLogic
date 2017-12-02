@@ -67,9 +67,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Corner4", group ="Concept")
+@Autonomous(name="Corner1_new", group ="Concept")
 
-public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
+public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
     HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass();
@@ -150,7 +150,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
         robot.myServo2.setPosition(0.6);
         robot.ting();
 		extendArm();
-        ThrowJewelBlueTile();
+        ThrowJewelRedTile();
         retractArm();
         //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         ElapsedTime pictoTime = new ElapsedTime();
@@ -207,7 +207,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                 if(vuMark == RelicRecoveryVuMark.CENTER && !didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, 35/2, 35/2, 10);
+                    encoderDrive(DRIVE_SPEED, -35/2, -35/2, 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
@@ -226,7 +226,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                 else if(vuMark == RelicRecoveryVuMark.LEFT && !didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, ((35/2)-3.75), ((35/2) -3.75), 10);
+                    encoderDrive(DRIVE_SPEED, -((35/2)-3.75), -((35/2) -3.75), 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
@@ -245,7 +245,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                 else  if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, (35/2)+3.75, (35/2)+3.75, 10);
+                    encoderDrive(DRIVE_SPEED, -((35/2)+3.75), -((35/2)+3.75), 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
 
@@ -266,7 +266,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                 if(!didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, 35/2, 35/2, 10);
+                    encoderDrive(DRIVE_SPEED, -35/2, -35/2, 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);

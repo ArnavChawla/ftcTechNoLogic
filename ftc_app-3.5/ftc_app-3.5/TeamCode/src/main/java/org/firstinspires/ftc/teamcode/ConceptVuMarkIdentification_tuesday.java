@@ -173,7 +173,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
         retractArm();
         pictoTime.reset();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        while (pictoTime.seconds() <= 10 )
+        while (pictoTime.seconds() <= 4 )
         {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if(vuMark != RelicRecoveryVuMark.UNKNOWN)
@@ -229,10 +229,9 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 
             if(vuMark == RelicRecoveryVuMark.CENTER && !didRun)
             {
-
-                encoderDrive(DRIVE_SPEED, -31/2,-31/2, 10);
+                encoderDrive(DRIVE_SPEED, -31/2, -31/2, 10);
                 encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
-                encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
+                encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
 
                 robot.leftMotor.setPower(0);
                 robot.rightMotor.setPower(0);
@@ -417,34 +416,10 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 
     public void ThrowJewelRedTile()
     {
-       if(isRedColorLeft() == true)
-       {
-           //see red on left
-           //move to right to push blue ball
-           for(int i = 0; i <= 10; i++)
-           {
-               robot.wrist.setPosition(0.5 + 0.05*i);
-           }
-       }
-       else
-       {
-           //see blue on left
-           //move left to push blue ball
-           for(int i = 0; i <= 10; i++)
-           {
-               robot.wrist.setPosition(0.5 - 0.05*i);
-           }
-       }
-
-       //robot.wrist.setPosition(0.5);//bring to center
-    }
-
-    public void ThrowJewelBlueTile()
-    {
-        if(isRedColorLeft() == false)
+        if(isRedColorLeft() == true)
         {
-            //see blue on left
-            //move to right to push red ball
+            //see red on left
+            //move to right to push blue ball
             for(int i = 0; i <= 10; i++)
             {
                 robot.wrist.setPosition(0.5 + 0.05*i);
@@ -452,18 +427,17 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
         }
         else
         {
-            //see red on left
-            //move left to push red ball
+            //see blue on left
+            //move left to push blue ball
             for(int i = 0; i <= 10; i++)
             {
                 robot.wrist.setPosition(0.5 - 0.05*i);
             }
-
         }
 
         //robot.wrist.setPosition(0.5);//bring to center
-
     }
+
 
     public boolean isRedColorLeft()
     {
