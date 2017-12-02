@@ -148,12 +148,23 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
         relicTrackables.activate();
         robot.myServo.setPosition(0.2);
         robot.myServo2.setPosition(0.6);
-        //robot.newRackMotor.setPower(0);
-
+        robot.ting();
 		extendArm();
         ThrowJewelBlueTile();
         retractArm();
+        //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        ElapsedTime pictoTime = new ElapsedTime();
+        pictoTime.reset();
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        while (pictoTime.seconds() <= 10 )
+        {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if(vuMark != RelicRecoveryVuMark.UNKNOWN)
+            {
 
+                break;
+            }
+        }
         while (opModeIsActive()) {
 
             /**
@@ -162,7 +173,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
              * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
              * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
              */
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 /* Found an instance of the template. In the actual game, you will probably
@@ -202,7 +213,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-                    
+                    robot.ting2();
 					robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
 
@@ -221,7 +232,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-
+                    robot.ting2();
                     robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
                     
@@ -240,6 +251,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
 
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
+                    robot.ting2();
                     robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
                     encoderDrive(0.3, -8/2, -8/2, 10);
@@ -260,7 +272,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-            
+                    robot.ting2();
 			        robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
             

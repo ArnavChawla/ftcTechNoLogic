@@ -58,6 +58,30 @@ public class HardwarePushbot_TuesdayClass
     public HardwarePushbot_TuesdayClass(){
 
     }
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    public  void ting2()
+    {
+        while(!uSensor2.isPressed()) {
+            clawMotor2.setPower(0.2);
+        }
+        clawMotor2.setPower(0);
+    }
+    public void ting()
+    {
+        myServo.setPosition(0.2);
+        myServo2.setPosition(0.6);
+        // while(!robot.uSensor2.isPressed())
+        //{
+        clawMotor2.setPower(-0.4);
+        sleep(1000);
+        //  }
+    }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {

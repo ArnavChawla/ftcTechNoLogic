@@ -76,6 +76,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
     public static final String TAG = "Vuforia VuMark Sample";
     HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass();
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime pictoTime = new ElapsedTime();
     static final double     COUNTS_PER_MOTOR_REV    = 1220 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
@@ -166,13 +167,24 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 
 		robot.myServo.setPosition(0.2);
         robot.myServo2.setPosition(0.6);
-
-
+        robot.ting();
 		extendArm();
         ThrowJewelRedTile();
         retractArm();
+        pictoTime.reset();
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        while (pictoTime.seconds() <= 10 )
+        {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if(vuMark != RelicRecoveryVuMark.UNKNOWN)
+            {
 
-       
+                break;
+            }
+        }
+
+        telemetry.addData("VuMark", "%s visible", vuMark);
+
         while (opModeIsActive()) {
 
             /**
@@ -181,7 +193,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
              * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
              * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
              */
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 /* Found an instance of the template. In the actual game, you will probably
@@ -224,7 +236,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 
                 robot.leftMotor.setPower(0);
                 robot.rightMotor.setPower(0);
-
+                robot.ting2();
                 robot.myServo.setPosition(1);
                 robot.myServo2.setPosition(0);
 
@@ -243,7 +255,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 
                 robot.rightMotor.setPower(0);
                 robot.leftMotor.setPower(0);
-
+                robot.ting2();
                 robot.myServo.setPosition(1);
                 robot.myServo2.setPosition(0);
 
@@ -262,7 +274,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 
                 robot.rightMotor.setPower(0);
                 robot.leftMotor.setPower(0);
-
+                robot.ting2();
                 robot.myServo.setPosition(1);
                 robot.myServo2.setPosition(0);
 
@@ -284,10 +296,10 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-            
+                    robot.ting2();
 			        robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
-            
+
 			        encoderDrive(0.3, -8/2, -8/2, 10);
             
 			        robot.rightMotor.setPower(0);
@@ -356,7 +368,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
             robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //  sleep(250);   // optional pause after each move
+            sleep(250);   // optional pause after each move
         }
     }
 
