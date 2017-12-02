@@ -52,7 +52,10 @@ public class Pushbot_servo extends OpMode{
 	HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass(); // use the class created to define a Pushbot's hardware
     double currentPosition = 0.7;
     double currentPosition2  = 0.2;
-    double rackPower = 0.35;//the speed at which the rack and pinion moves
+
+    double rackPower = 0.5;//the speed at which the rack and pinion moves
+    double rack2UpPower = 0.8;
+
     double clawOffset2 = -0.4;// Servo mid position
 
 
@@ -63,6 +66,7 @@ public class Pushbot_servo extends OpMode{
          */
         //get the hardware map and set the positions to meet the constrains
 		robot.init(hardwareMap);
+        initArm();
 		robot.myServo.setPosition(0.6);
 		robot.myServo2.setPosition(0.3);
     }
@@ -107,9 +111,9 @@ public class Pushbot_servo extends OpMode{
             if(!robot.uSensor1.isPressed())//1st beam can go up
             {
                 telemetry. addLine("Motor one up");
-                robot.clawMotor1.setPower(rackPowerMotorOneUp/*-rackPower*/);//1st beam go up
+                robot.clawMotor1.setPower(-rack2UpPower);//1st beam go up
             }
-            else//1st beam reached top
+            else//1st beam reached top2
             {
                 robot.clawMotor1.setPower(0);//stop 1st beam motor
                 telemetry. addLine("Motor one off");
@@ -125,7 +129,7 @@ public class Pushbot_servo extends OpMode{
         if(!robot.dSensor1.isPressed())//1st beam can move down
         {
             telemetry. addLine("Motor one down");
-            robot.clawMotor1.setPower(rackPower);//1st beam go down
+            robot.clawMotor1.setPower(0.2);//1st beam go down
         }
         else//1st beam reached bottom
         {
@@ -191,6 +195,14 @@ public class Pushbot_servo extends OpMode{
      */
     @Override
     public void stop() {
+    }
+
+    public void initArm()
+    {
+        //initilize the arm
+        robot.shoulder.setPosition(0);
+        robot.elbow.setPosition(0);
+        robot.wrist.setPosition(0.5);
     }
 
 }

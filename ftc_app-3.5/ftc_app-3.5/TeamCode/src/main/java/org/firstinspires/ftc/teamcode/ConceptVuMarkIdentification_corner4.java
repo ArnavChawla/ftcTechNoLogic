@@ -337,22 +337,22 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
 	public void initArm()
 	{
 	    //initilize the arm
-        robot.shoulder.setPosition(1);
-        robot.elbow.setPosition(1);
+        robot.shoulder.setPosition(0);
+        robot.elbow.setPosition(0);
         robot.wrist.setPosition(0.5);
 	}
 
 	 public void retractArm()
     {
 
-        double shoulderAngle = ( 1 - (100* 0.005));
-        double elbowAngle = (1- (100* 0.009));
+        double shoulderAngle = (100* 0.005);
+        double elbowAngle = (100* 0.009);
 
         for(int i = 0; i <100; i++)
         {
             //shoulder angle - 0.005, elbow 0.01
-            shoulderAngle = shoulderAngle + 0.005;
-            elbowAngle = elbowAngle + 0.009;
+            shoulderAngle = shoulderAngle - 0.005;
+            elbowAngle = elbowAngle - 0.009;
             robot.elbow.setPosition(elbowAngle);
             robot.shoulder.setPosition(shoulderAngle);
             if(i==50)//half way
@@ -365,13 +365,13 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
     public void extendArm()
     {
 
-        double shoulderAngle = 1;
-        double elbowAngle = 1;
+        double shoulderAngle = 0;
+        double elbowAngle = 0;
         for(int i = 0; i <100; i++)
         {
             //shoulder angle - 0.005, elbow 0.01
-            shoulderAngle = shoulderAngle - 0.005;
-            elbowAngle = elbowAngle - 0.009;
+            shoulderAngle = shoulderAngle + 0.005;
+            elbowAngle = elbowAngle + 0.009;
             robot.elbow.setPosition(elbowAngle);
             robot.shoulder.setPosition(shoulderAngle);
         }
@@ -431,7 +431,7 @@ public class ConceptVuMarkIdentification_corner4 extends LinearOpMode {
     {
 
         double wristPosition = 0.5;
-        while( (robot.jewelSensor.red()< 4 ) && (robot.jewelSensor.blue()< 4)) {
+        while( (robot.jewelSensor.red()< 4 ) && (robot.jewelSensor.blue()< 4) && (wristPosition > 0.25)) {
             wristPosition = wristPosition - 0.005;
             robot.wrist.setPosition(wristPosition);
             

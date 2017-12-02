@@ -94,6 +94,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
     @Override public void runOpMode() {
         robot.init(hardwareMap);
 
+
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
          * If no camera monitor is desired, use the parameterless constructor instead (commented out below).
@@ -302,6 +303,7 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
     String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
+
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
@@ -360,22 +362,22 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
 	public void initArm()
 	{
 	    //initilize the arm
-        robot.shoulder.setPosition(1);
-        robot.elbow.setPosition(1);
+        robot.shoulder.setPosition(0);
+        robot.elbow.setPosition(0);
         robot.wrist.setPosition(0.5);
 	}
 
 	 public void retractArm()
     {
 
-        double shoulderAngle = ( 1 - (100* 0.005));
-        double elbowAngle = (1- (100* 0.009));
+        double shoulderAngle = (100* 0.005);
+        double elbowAngle = (100* 0.009);
 
         for(int i = 0; i <100; i++)
         {
             //shoulder angle - 0.005, elbow 0.01
-            shoulderAngle = shoulderAngle + 0.005;
-            elbowAngle = elbowAngle + 0.009;
+            shoulderAngle = shoulderAngle - 0.005;
+            elbowAngle = elbowAngle - 0.009;
             robot.elbow.setPosition(elbowAngle);
             robot.shoulder.setPosition(shoulderAngle);
             if(i==50)//half way
@@ -388,13 +390,13 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
     public void extendArm()
     {
 
-        double shoulderAngle = 1;
-        double elbowAngle = 1;
+        double shoulderAngle =0;
+        double elbowAngle = 0;
         for(int i = 0; i <100; i++)
         {
             //shoulder angle - 0.005, elbow 0.01
-            shoulderAngle = shoulderAngle - 0.005;
-            elbowAngle = elbowAngle - 0.009;
+            shoulderAngle = shoulderAngle + 0.005;
+            elbowAngle = elbowAngle + 0.009;
             robot.elbow.setPosition(elbowAngle);
             robot.shoulder.setPosition(shoulderAngle);
         }
@@ -454,16 +456,16 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
     {
 
         double wristPosition = 0.5;
-        while( (robot.jewelSensor.red()< 4 ) && (robot.jewelSensor.blue()< 4)) {
+        while( (robot.jewelSensor.red()< 4 ) && (robot.jewelSensor.blue()< 4) && (wristPosition > 0.25)) {
             wristPosition = wristPosition - 0.005;
             robot.wrist.setPosition(wristPosition);
             
-			/*telemetry.addData("Red  ", robot.jewelSensor.red());
+			telemetry.addData("Red  ", robot.jewelSensor.red());
             telemetry.addData("Blue ", robot.jewelSensor.blue());
             telemetry.addData("shoulder angle ", robot.shoulder.getPosition());
             telemetry.addData("elbow angle ", robot.elbow.getPosition());
             telemetry.addData("wrist angle ", robot.wrist.getPosition());
-            telemetry.update();*/
+            telemetry.update();
         }
 
        //see color

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -66,6 +67,7 @@ public class HardwarePushbot_TuesdayClass
 
         // Define and Initialize Motors
 		jewelSensor = hwMap.colorSensor.get("jewel_sensor");
+
 		shoulder = hwMap.servo.get("shoulder_servo");
 		elbow = hwMap.servo.get("elbow_servo");
 		wrist = hwMap.servo.get("wrist_servo");
