@@ -134,12 +134,13 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-	   boolean bLedOn = true;
+        boolean bLedOn = true;
         // Set the LED in the beginning
         robot.jewelSensor.enableLed(bLedOn);
-		
-		initArm();
 
+        initArm();
+        robot.myServo.setPosition(0.7);
+        robot.myServo2.setPosition(0.1);
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
@@ -149,7 +150,7 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
         robot.myServo.setPosition(0.2);
         robot.myServo2.setPosition(0.6);
         robot.ting();
-		extendArm();
+        extendArm();
         ThrowJewelRedTile();
         retractArm();
         //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
@@ -207,26 +208,26 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
                 if(vuMark == RelicRecoveryVuMark.CENTER && !didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, -35/2, -35/2, 10);
+                    encoderDrive(DRIVE_SPEED,-35/2, -35/2, 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
                     robot.ting2();
-					robot.myServo.setPosition(1);
+                    robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
 
                     encoderDrive(0.3, -8/2, -8/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-                    
-					didRun = true;
+                    encoderDrive(0.3, 8/2, 8/2, 2);
+                    didRun = true;
                 }
                 else if(vuMark == RelicRecoveryVuMark.LEFT && !didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, -((35/2)-3.75), -((35/2) -3.75), 10);
+                    encoderDrive(DRIVE_SPEED, -((35/2)+3.75), -((35/2) +3.75), 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
@@ -235,17 +236,17 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
                     robot.ting2();
                     robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
-                    
-					encoderDrive(0.3, -8/2, -8/2, 10);
+
+                    encoderDrive(0.3, -8/2, -8/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-                    
-					didRun = true;
+                    encoderDrive(0.3, 8/2, 8/2, 2);
+                    didRun = true;
                 }
                 else  if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, -((35/2)+3.75), -((35/2)+3.75), 10);
+                    encoderDrive(DRIVE_SPEED, -((35/2)-3.75), -((35/2)-3.75), 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
 
@@ -257,44 +258,46 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
                     encoderDrive(0.3, -8/2, -8/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
+                    encoderDrive(0.3, 8/2, 8/2, 2);
                     didRun = true;
                 }
 
             }
-            else 
-			{
+            else
+            {
                 if(!didRun)
                 {
                     telemetry.addData("VuMark", "%s visible", vuMark);
-                    encoderDrive(DRIVE_SPEED, -35/2, -35/2, 10);
+                    encoderDrive(DRIVE_SPEED, -(35/2), -(35/2), 10);
                     encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
 
                     encoderDrive(DRIVE_SPEED, -5/2, -5/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
                     robot.ting2();
-			        robot.myServo.setPosition(1);
+                    robot.myServo.setPosition(1);
                     robot.myServo2.setPosition(0);
-            
-			        encoderDrive(0.3, -8/2, -8/2, 10);
-            
-			        robot.rightMotor.setPower(0);
+
+                    encoderDrive(0.3, -8/2, -8/2, 10);
+
+                    robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
+                    encoderDrive(0.3, 8/2, 8/2, 2);
                     didRun = true;
                 }
-				telemetry.addData("VuMark", "not visible");
+                telemetry.addData("VuMark", "not visible");
             }
 
             telemetry.update();
         }
-   }
+    }
 
 
-   String format(OpenGLMatrix transformationMatrix) {
-       return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
-   }
+    String format(OpenGLMatrix transformationMatrix) {
+        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
+    }
 
-   public void encoderDrive(double speed,
+    public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
         int newLeftTarget;
@@ -350,15 +353,15 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
     }
 
 
-	public void initArm()
-	{
-	    //initilize the arm
+    public void initArm()
+    {
+        //initilize the arm
         robot.shoulder.setPosition(0);
         robot.elbow.setPosition(0);
         robot.wrist.setPosition(0.5);
-	}
+    }
 
-	 public void retractArm()
+    public void retractArm()
     {
 
         double shoulderAngle = (100* 0.005);
@@ -395,26 +398,26 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
 
     public void ThrowJewelRedTile()
     {
-       if(isRedColorLeft() == true)
-       {
-           //see red on left
-           //move to right to push blue ball
-           for(int i = 0; i <= 10; i++)
-           {
-               robot.wrist.setPosition(0.5 + 0.05*i);
-           }
-       }
-       else
-       {
-           //see blue on left
-           //move left to push blue ball
-           for(int i = 0; i <= 10; i++)
-           {
-               robot.wrist.setPosition(0.5 - 0.05*i);
-           }
-       }
+        if(isRedColorLeft() == true)
+        {
+            //see red on left
+            //move to right to push blue ball
+            for(int i = 0; i <= 10; i++)
+            {
+                robot.wrist.setPosition(0.5 + 0.05*i);
+            }
+        }
+        else
+        {
+            //see blue on left
+            //move left to push blue ball
+            for(int i = 0; i <= 10; i++)
+            {
+                robot.wrist.setPosition(0.5 - 0.05*i);
+            }
+        }
 
-       //robot.wrist.setPosition(0.5);//bring to center
+        //robot.wrist.setPosition(0.5);//bring to center
     }
 
     public void ThrowJewelBlueTile()
@@ -459,7 +462,7 @@ public class ConceptVuMarkIdentification_corner1new extends LinearOpMode {
             telemetry.update();*/
         }
 
-       //see color
+        //see color
         if(robot.jewelSensor.red()>robot.jewelSensor.blue())
         {
             return true;

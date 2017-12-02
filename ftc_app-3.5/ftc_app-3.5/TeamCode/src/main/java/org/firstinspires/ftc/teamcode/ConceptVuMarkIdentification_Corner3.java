@@ -140,7 +140,8 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
         boolean bLedOn = true;
         // Set the LED in the beginning
         robot.jewelSensor.enableLed(bLedOn);
-
+        robot.myServo.setPosition(0.7);
+        robot.myServo2.setPosition(0.1);
 
 
 
@@ -235,7 +236,7 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
                 encoderDrive(0.3, -8 / 2, -8 / 2, 10);
                 robot.rightMotor.setPower(0);
                 robot.leftMotor.setPower(0);
-
+                encoderDrive(0.3, 8/2, 8/2, 2);
                 didRun = true;
             } else if (vuMark == RelicRecoveryVuMark.LEFT && !didRun) {
                 telemetry.addData("VuMark", "%s visible", vuMark);
@@ -254,7 +255,7 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
                 encoderDrive(0.3, -8 / 2, -8 / 2, 10);
                 robot.rightMotor.setPower(0);
                 robot.leftMotor.setPower(0);
-
+                encoderDrive(0.3, 8/2, 8/2, 2);
                 didRun = true;
             } else if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun) {
                 telemetry.addData("VuMark", "%s visible", vuMark);
@@ -273,7 +274,7 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
                 encoderDrive(0.3, -8 / 2, -8 / 2, 10);
                 robot.rightMotor.setPower(0);
                 robot.leftMotor.setPower(0);
-
+                encoderDrive(0.3, 8/2, 8/2, 2);
                 didRun = true;
             } else {
                 if (!didRun) {
@@ -293,7 +294,7 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
                     encoderDrive(0.3, -8 / 2, -8 / 2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-
+                    encoderDrive(0.3, 8/2, 8/2, 2);
                     didRun = true;
                 }
 
@@ -359,8 +360,8 @@ public class ConceptVuMarkIdentification_Corner3 extends LinearOpMode {
             // Stop all motion;
 
             // Turn off RUN_TO_POSITION
-            robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+           // robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }

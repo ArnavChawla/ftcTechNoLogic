@@ -67,8 +67,8 @@ public class Pushbot_servo extends OpMode{
         //get the hardware map and set the positions to meet the constrains
 		robot.init(hardwareMap);
         initArm();
-		robot.myServo.setPosition(0.6);
-		robot.myServo2.setPosition(0.3);
+		robot.myServo.setPosition(0.7);
+		robot.myServo2.setPosition(0.1);
     }
 
     /*

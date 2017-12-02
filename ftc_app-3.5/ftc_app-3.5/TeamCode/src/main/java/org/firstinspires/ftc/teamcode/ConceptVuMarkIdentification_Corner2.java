@@ -143,7 +143,8 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
         robot.jewelSensor.enableLed(bLedOn);
 		
 		initArm();
-
+        robot.myServo.setPosition(0.7);
+        robot.myServo2.setPosition(0.1);
 
 
         telemetry.addData(">", "Press Play to start");
@@ -221,7 +222,8 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
                      encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
                      encoderDrive(DRIVE_SPEED, -15/2,-15/2, 10);
                      encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
-                     encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
+                    //
+                    // encoderDrive(DRIVE_SPEED, -2/2,-2/2, 10);
                      
 		             robot.leftMotor.setPower(0);
                      robot.rightMotor.setPower(0);
@@ -232,7 +234,7 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
                      encoderDrive(0.3, -8/2, -8/2, 10);
                      robot.rightMotor.setPower(0);
                      robot.leftMotor.setPower(0);
-                    
+                    encoderDrive(0.3, 8/2, 8/2, 2);
 					 didRun = true;
                 }
                 else if(vuMark == RelicRecoveryVuMark.LEFT && !didRun)
@@ -253,7 +255,7 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
 					 encoderDrive(0.3, -8/2, -8/2, 10);
                      robot.rightMotor.setPower(0);
                      robot.leftMotor.setPower(0);
-                    
+                    encoderDrive(0.3, 8/2, 8/2, 2);
 					 didRun = true;
                 }
                 else  if (vuMark == RelicRecoveryVuMark.RIGHT && !didRun)
@@ -274,7 +276,7 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
                     encoderDrive(0.3, -8/2, -8/2, 10);
                     robot.rightMotor.setPower(0);
                     robot.leftMotor.setPower(0);
-
+                    encoderDrive(0.3, 8/2, 8/2, 2);
                     didRun = true;
                 }
 
@@ -290,9 +292,10 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
                      encoderDrive(TURN_SPEED,   4.8, -4.8, 4.0);
                      encoderDrive(DRIVE_SPEED, -15/2,-15/2, 10);
                      encoderDrive(TURN_SPEED,   -4.8, 4.8, 4.0);
-                     encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
-                     
-		             robot.leftMotor.setPower(0);
+                    // encoderDrive(DRIVE_SPEED, -5/2,-5/2, 10);
+                    //encoderDrive(DRIVE_SPEED, -2/2,-2/2, 10);
+
+                    robot.leftMotor.setPower(0);
                      robot.rightMotor.setPower(0);
                     robot.ting2();
 					 robot.myServo.setPosition(1);
@@ -301,7 +304,7 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
                      encoderDrive(0.3, -8/2, -8/2, 10);
                      robot.rightMotor.setPower(0);
                      robot.leftMotor.setPower(0);
-                    
+                    encoderDrive(0.3, 8/2, 8/2, 2);
 					 didRun = true;
                 }
                 telemetry.addData("VuMark", "not visible");
@@ -363,8 +366,8 @@ public class ConceptVuMarkIdentification_Corner2 extends LinearOpMode {
             // Stop all motion;
 
             // Turn off RUN_TO_POSITION
-            robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+           // robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }

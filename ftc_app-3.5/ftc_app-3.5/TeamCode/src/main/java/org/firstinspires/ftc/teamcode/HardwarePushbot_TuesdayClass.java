@@ -67,7 +67,7 @@ public class HardwarePushbot_TuesdayClass
     }
     public  void ting2()
     {
-        while(!uSensor2.isPressed()) {
+        while(!dSensor2.isPressed()) {
             clawMotor2.setPower(0.2);
         }
         clawMotor2.setPower(0);
