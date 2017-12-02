@@ -111,7 +111,9 @@ public class Pushbot_servo extends OpMode{
             if(!robot.uSensor1.isPressed())//1st beam can go up
             {
                 telemetry. addLine("Motor one up");
+
                 robot.clawMotor1.setPower(-rack2UpPower);//1st beam go up
+
             }
             else//1st beam reached top2
             {
