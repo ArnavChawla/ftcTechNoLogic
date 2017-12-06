@@ -29,7 +29,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -224,21 +223,21 @@ public class ConceptVuMarkIdentification_Corner3_revised extends CommonDriverFun
 //                encoderDrive(DRIVE_SPEED, -15 / 2, -15 / 2, 10);
 //                encoderDrive(TURN_SPEED, 4.8, -4.8, 4.0);
 //                encoderDrive(DRIVE_SPEED, -5 / 2, -5 / 2, 10);
-                    goStraight(-25);
-                    turnRobot(-90);
-                    goStraight(15);
-                    turnRobot(-90);
-                    goStraight(5);
+                    goStraightInches(-25);
+                    turnRobotInDegrees(-90);
+                    goStraightInches(15);
+                    turnRobotInDegrees(-90);
+                    goStraightInches(5);
                 robot.leftMotor.setPower(0);
                 robot.rightMotor.setPower(0);
                 robot.ting2();
                 robot.myServo.setPosition(1);
                 robot.myServo2.setPosition(0);
 
-                goStraight(8);
+                goStraightInches(8);
                 robot.rightMotor.setPower(0);
                 robot.leftMotor.setPower(0);
-                goStraight(-8);
+                goStraightInches(-8);
                 didRun = true;
             } else if (vuMark == RelicRecoveryVuMark.LEFT && !didRun) {
                 telemetry.addData("VuMark", "%s visible", vuMark);
