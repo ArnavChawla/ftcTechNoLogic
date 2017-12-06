@@ -84,16 +84,25 @@ public class ConceptVuMarkIdentification_test_OpMode extends CommonDriverFunctio
 
     @Override public void runOpMode() {
         robot.init(hardwareMap);
+
         //super.runOpMode();
 
+
+        telemetry.addData(">", "Press Play to start");
+        telemetry.update();
+
+        waitForStart();
 
         //telemetry.addData("VuMark", "%s visible", vuMark);
 
         //while (opModeIsActive())
         // {
-            goStraight(10);
+        //
+
+        goStraight(10);
         telemetry.addData("Run complete", "");
         telemetry.update();
+
         //}
     }
 

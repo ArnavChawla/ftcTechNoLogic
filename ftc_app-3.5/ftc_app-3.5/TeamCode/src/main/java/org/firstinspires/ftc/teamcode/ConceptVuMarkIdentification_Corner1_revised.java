@@ -156,6 +156,7 @@ public class ConceptVuMarkIdentification_Corner1_revised extends CommonDriverFun
 		initArm();
 
         telemetry.addData(">", "Press Play to start");
+
         telemetry.update();
         robot.myServo.setPosition(0.7);
         robot.myServo2.setPosition(0.1);
