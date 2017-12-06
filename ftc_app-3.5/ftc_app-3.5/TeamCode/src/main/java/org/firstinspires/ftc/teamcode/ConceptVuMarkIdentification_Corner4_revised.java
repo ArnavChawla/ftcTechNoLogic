@@ -29,6 +29,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -66,36 +67,35 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Corner3_r   ", group ="Concept")
+@Autonomous(name="Corner4_r", group ="Concept")
 
-public class ConceptVuMarkIdentification_Corner3_revised extends CommonDriverFunctions {
+public class ConceptVuMarkIdentification_Corner4_revised extends CommonDriverFunctions {
 
-    public void gotoCryptoboxColumnAndDropGlyphCorner3(RelicRecoveryVuMark cryptoColumn)
+    public void gotoCryptoboxColumnAndDropGlyphCorner4(RelicRecoveryVuMark cryptoColumn)
     {
         double variableDistance = 0;
         if(cryptoColumn == RelicRecoveryVuMark.LEFT)
         {
-            variableDistance = 7.5;
+            variableDistance = -27.5;
 
         }
         else if (cryptoColumn == RelicRecoveryVuMark.RIGHT)
         {
-            variableDistance = 11.25;
+            variableDistance = -42.5;
         }
         else
         {
             // whether center is recognized or whether vumark is not recognized, we go to the center
             // and drop the relic there
-            variableDistance = 15;
+            variableDistance = -35;
         }
-
-        goStraightInches(-25);
-        turnRobotInDegrees(-90);
         goStraightInches(variableDistance);
-        turnRobotInDegrees(-90);
+
+        turnRobotInDegrees(90);
+
         goStraightInches(5);
-        robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
+        robot.leftMotor.setPower(0);
         robot.ting2();
         robot.myServo.setPosition(1);
         robot.myServo2.setPosition(0);
@@ -106,40 +106,33 @@ public class ConceptVuMarkIdentification_Corner3_revised extends CommonDriverFun
         goStraightInches(-8);
     }
 
-    @Override
-    public void runOpMode() {
+    @Override public void runOpMode() {
         robot.init(hardwareMap);
 
-        boolean bLedOn = true;
+
+	   boolean bLedOn = true;
         // Set the LED in the beginning
         robot.jewelSensor.enableLed(bLedOn);
+		
+		initArm();
         setClawServoPositions1();
-
-
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
-        initArm();
-
         waitForStart();
+
 
         setClawServoPositions2();
         robot.ting();
-        extendArm();
+		extendArm();
         ThrowJewelBlueTile();
         retractArm();
-
         RelicRecoveryVuMark vuMark = getPictograph();
-
-
-        telemetry.addData("VuMark", "%s visible", vuMark);
 
         if (opModeIsActive()) {
 
-            gotoCryptoboxColumnAndDropGlyphCorner3(vuMark);
+            gotoCryptoboxColumnAndDropGlyphCorner4(vuMark);
             telemetry.update();
         }
-
-    }
-
+   }
 }

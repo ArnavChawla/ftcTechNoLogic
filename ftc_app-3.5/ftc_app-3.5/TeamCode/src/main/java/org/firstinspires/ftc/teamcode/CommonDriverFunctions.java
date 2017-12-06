@@ -242,6 +242,31 @@ public class CommonDriverFunctions extends LinearOpMode {
         //robot.wrist.setPosition(0.5);//bring to center
     }
 
+    public void ThrowJewelBlueTile()
+    {
+        if(isRedColorLeft() == false)
+        {
+            //see blue on left
+            //move to right to push red ball
+            for(int i = 0; i <= 10; i++)
+            {
+                robot.wrist.setPosition(0.5 + 0.05*i);
+            }
+        }
+        else
+        {
+            //see red on left
+            //move left to push red ball
+            for(int i = 0; i <= 10; i++)
+            {
+                robot.wrist.setPosition(0.5 - 0.05*i);
+            }
+
+        }
+
+        //robot.wrist.setPosition(0.5);//bring to center
+
+    }
 
     public boolean isRedColorLeft()
     {

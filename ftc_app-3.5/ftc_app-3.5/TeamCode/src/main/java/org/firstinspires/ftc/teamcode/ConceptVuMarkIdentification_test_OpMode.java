@@ -32,6 +32,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 
@@ -74,128 +75,17 @@ public class ConceptVuMarkIdentification_test_OpMode extends CommonDriverFunctio
     @Override public void runOpMode() {
         robot.init(hardwareMap);
 
-        //super.runOpMode();
-
-
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
 
         waitForStart();
 
-        //telemetry.addData("VuMark", "%s visible", vuMark);
-
-        //while (opModeIsActive())
-        // {
-        //
-
         goStraightInches(10);
         telemetry.addData("Run complete", "");
+
+        RelicRecoveryVuMark vumark = getPictograph();
+        telemetry.addData("vumark visible: ", vumark);
         telemetry.update();
 
-        //}
     }
-
-    String format(OpenGLMatrix transformationMatrix) {
-        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
-    }
-
-
-
-	public void initArm()
-	{
-	    //initilize the arm
-        robot.shoulder.setPosition(0);
-        robot.elbow.setPosition(0);
-        robot.wrist.setPosition(0.5);
-	}
-
-	 public void retractArm()
-    {
-
-        double shoulderAngle = (100* 0.005);
-        double elbowAngle = (100* 0.009);
-
-        for(int i = 0; i <100; i++)
-        {
-            //shoulder angle - 0.005, elbow 0.01
-            shoulderAngle = shoulderAngle - 0.005;
-            elbowAngle = elbowAngle - 0.009;
-            robot.elbow.setPosition(elbowAngle);
-            robot.shoulder.setPosition(shoulderAngle);
-            if(i==50)//half way
-            {
-                robot.wrist.setPosition(0.5);
-            }
-        }
-    }
-
-    public void extendArm()
-    {
-
-        double shoulderAngle =0;
-        double elbowAngle = 0;
-        for(int i = 0; i <100; i++)
-        {
-            //shoulder angle - 0.005, elbow 0.01
-            shoulderAngle = shoulderAngle + 0.005;
-            elbowAngle = elbowAngle + 0.009;
-            robot.elbow.setPosition(elbowAngle);
-            robot.shoulder.setPosition(shoulderAngle);
-        }
-    }
-
-    public void ThrowJewelRedTile()
-    {
-        if(isRedColorLeft() == true)
-        {
-            //see red on left
-            //move to right to push blue ball
-            for(int i = 0; i <= 10; i++)
-            {
-                robot.wrist.setPosition(0.5 + 0.05*i);
-            }
-        }
-        else
-        {
-            //see blue on left
-            //move left to push blue ball
-            for(int i = 0; i <= 10; i++)
-            {
-                robot.wrist.setPosition(0.5 - 0.05*i);
-            }
-        }
-
-        //robot.wrist.setPosition(0.5);//bring to center
-    }
-
-
-    public boolean isRedColorLeft()
-    {
-
-        double wristPosition = 0.5;
-        while( (robot.jewelSensor.red()< 4 ) && (robot.jewelSensor.blue()< 4) && (wristPosition > 0.25)) {
-            wristPosition = wristPosition - 0.005;
-            robot.wrist.setPosition(wristPosition);
-            
-			telemetry.addData("Red  ", robot.jewelSensor.red());
-            telemetry.addData("Blue ", robot.jewelSensor.blue());
-            telemetry.addData("shoulder angle ", robot.shoulder.getPosition());
-            telemetry.addData("elbow angle ", robot.elbow.getPosition());
-            telemetry.addData("wrist angle ", robot.wrist.getPosition());
-            telemetry.update();
-        }
-
-       //see color
-        if(robot.jewelSensor.red()>robot.jewelSensor.blue())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-
 }
