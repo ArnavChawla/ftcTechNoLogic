@@ -100,6 +100,19 @@ public class ConceptVuMarkIdentification_test_OpMode extends CommonDriverFunctio
         //
 
         goStraight(10);
+        turnRobot(90);
+
+        goStraight(10);
+        turnRobot(90);
+
+        goStraight(10);
+        turnRobot(90);
+
+        goStraight(10);
+        turnRobot(90);
+
+
+
         telemetry.addData("Run complete", "");
         telemetry.update();
 
