@@ -34,6 +34,7 @@ public class CommonDriverFunctions extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.3;
     static final double     TURN_SPEED              = 0.25;
     VuforiaLocalizer vuforia;
+
     private ElapsedTime pictoTime = new ElapsedTime();
 
     @Override public void runOpMode() {
@@ -56,15 +57,22 @@ public class CommonDriverFunctions extends LinearOpMode {
     {
         encoderDrive(DRIVE_SPEED, -distance/2, -distance/2, 10);
     }
+
+    public void goStraightInchesTout(double distance, double timeOut)
+    {
+        encoderDrive(DRIVE_SPEED, -distance/2, -distance/2, timeOut);
+    }
     public void turnRobotInDegrees(double degrees)
     {
         double turnRatio = 4.8/90;
 
-        encoderDrive(TURN_SPEED,-(turnRatio*degrees), (turnRatio*degrees), 10);
+        encoderDrive(TURN_SPEED,-(turnRatio*degrees), (turnRatio*degrees), 5);
     }
+
 
     public RelicRecoveryVuMark getPictograph()
     {
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         parameters.vuforiaLicenseKey = "AY2KQyL/////AAAAGXS4X/lQOk/IjLKvqAMnGZwUa2bzXyB+9U0qpjzUtC75gupc1qaq33ijadEDvuneV699tFrKTLAf1n2FG39Mqjhf88N33OpPuJtyx0n41oPfecHfJUWKY2EptbsHIf/Ii0NsU4LeBd6W68KviHWJMf3I1bxyv6zqwrbB+emaFpC7loL1U+Etxby2DiT4GLRzJ5HZuhKw/Om+hgvZGC9iAsynldVLLzl40VEfVQV8RIGFm6Z+Dd/cILvSwFxZ60NpghZjEOz3Q3yM0OipQWJxEclf3gb984aOr8IbnlFtEJv4HAUfZF/t4eOu90BiXyhue6eXnxJZttd9FVtIa+m1AUvJKf4BaaZb5v0ovCXo5ABB\n";
@@ -78,36 +86,37 @@ public class CommonDriverFunctions extends LinearOpMode {
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
         relicTrackables.activate();
-
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+        pictoTime.reset();
+
         while (pictoTime.seconds() <= 4 )
         {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if(vuMark != RelicRecoveryVuMark.UNKNOWN)
             {
-                break;
-            }
-        }
-
-        /** we illustrate it nevertheless, for completeness. */
-        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
-        telemetry.addData("Pose", format(pose));
+                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+                telemetry.addData("Pose", format(pose));
 
                 /* We further illustrate how to decompose the pose into useful rotational and
                  * translational components */
-        if (pose != null) {
-            VectorF trans = pose.getTranslation();
-            Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                if (pose != null) {
+                    VectorF trans = pose.getTranslation();
+                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-            // Extract the X, Y, and Z components of the offset of the target relative to the robot
-            double tX = trans.get(0);
-            double tY = trans.get(1);
-            double tZ = trans.get(2);
+                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
+                    double tX = trans.get(0);
+                    double tY = trans.get(1);
+                    double tZ = trans.get(2);
 
-            // Extract the rotational components of the target relative to the robot
-            double rX = rot.firstAngle;
-            double rY = rot.secondAngle;
-            double rZ = rot.thirdAngle;
+                    // Extract the rotational components of the target relative to the robot
+                    double rX = rot.firstAngle;
+                    double rY = rot.secondAngle;
+                    double rZ = rot.thirdAngle;
+                }
+
+                break;
+            }
         }
 
         return vuMark;
@@ -129,17 +138,26 @@ public class CommonDriverFunctions extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            robot.leftMotor.setTargetPosition(newLeftTarget);
-            robot.rightMotor.setTargetPosition(newRightTarget);
+
 
             // Turn On RUN_TO_POSITION
             robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(20);
             robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(20);
+
+
+            robot.leftMotor.setTargetPosition(newLeftTarget);
+            sleep(20);
+            robot.rightMotor.setTargetPosition(newRightTarget);
+            sleep(20);
 
             // reset the timeout time and start motion.
             runtime.reset();
             robot.leftMotor.setPower(speed);
+            sleep(20);
             robot.rightMotor.setPower(speed);
+            sleep(20);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // N    ote: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -152,25 +170,22 @@ public class CommonDriverFunctions extends LinearOpMode {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-
-
                 telemetry.addData("Path2",  "Running at %7d :%7d",
                         robot.leftMotor.getCurrentPosition(),
                         robot.rightMotor.getCurrentPosition());
                 telemetry.update();
             }
 
-
-
             // Stop all motion;
             robot.leftMotor.setPower(0);
+            sleep(20);
             robot.rightMotor.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(250);   // optional pause after each move
+            sleep(100);   // optional pause after each move
         }
     }
 
