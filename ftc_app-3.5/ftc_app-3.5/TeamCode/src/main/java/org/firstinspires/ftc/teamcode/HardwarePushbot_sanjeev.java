@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -24,28 +23,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwarePushbot_TuesdayClass
+public class HardwarePushbot_sanjeev
 {
-    public ColorSensor jewelSensor = null;
-	public Servo shoulder = null;
-	public Servo elbow = null;
-	public Servo wrist = null;
 
-    TouchSensor uSensor1 = null;
-    TouchSensor dSensor1 = null;
-    TouchSensor uSensor2 = null;
-    TouchSensor dSensor2 = null;
-
-    /* Public OpMode members. */
-	public DcMotor  clawMotor1   = null;
-	public DcMotor  clawMotor2   = null;
-
-
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
-
-    public  Servo myServo = null;
-    public  Servo myServo2 = null;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -55,7 +35,7 @@ public class HardwarePushbot_TuesdayClass
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwarePushbot_TuesdayClass(){
+    public HardwarePushbot_sanjeev(){
 
     }
     public final void sleep(long milliseconds) {
@@ -67,20 +47,11 @@ public class HardwarePushbot_TuesdayClass
     }
     public  void ting2()
     {
-        while(!dSensor2.isPressed()) {
-            clawMotor2.setPower(0.2);
-        }
-        clawMotor2.setPower(0);
+
     }
     public void ting()
     {
-        myServo.setPosition(0.2);
-        myServo2.setPosition(0.6);
-        // while(!robot.uSensor2.isPressed())
-        //{
-        clawMotor2.setPower(-0.4);
-        sleep(1000);
-        clawMotor2.setPower(0);
+
         //  }
     }
 
@@ -91,43 +62,6 @@ public class HardwarePushbot_TuesdayClass
 
 
 
-        // Define and Initialize Motors
-		jewelSensor = hwMap.colorSensor.get("jewel_sensor");
-
-		shoulder = hwMap.servo.get("shoulder_servo");
-		elbow = hwMap.servo.get("elbow_servo");
-		wrist = hwMap.servo.get("wrist_servo");
-
-        uSensor1= hwMap.touchSensor.get("u_sensor_one");
-        dSensor1= hwMap.touchSensor.get("d_sensor_one");
-        uSensor2 = hwMap.touchSensor.get("u_sensor_two");
-        dSensor2 = hwMap.touchSensor.get("d_sensor_two");
-
-		clawMotor1 = hwMap.dcMotor.get("claw_motor_one");
-		clawMotor2 = hwMap.dcMotor.get("claw_motor_two");
-
-        leftMotor   = hwMap.dcMotor.get("left_drive");
-        rightMotor  = hwMap.dcMotor.get("right_drive");
-      
-        myServo = hwMap.servo.get("one_servo");
-        myServo2 = hwMap.servo.get("two_servo");
-        //armMotor    = hwMap.dcMotor.get("left_arm");
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        myServo.setPosition(0.5);
-       // armMotor.setPower(0);
-
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        // Define and initialize ALL installed servos.
 
     }
 

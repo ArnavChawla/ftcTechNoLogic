@@ -90,7 +90,7 @@ public class ConceptVuMarkIdentification_Corner2_revised extends CommonDriverFun
         robot.myServo.setPosition(1);
         robot.myServo2.setPosition(0);
 
-        goStraightInches(8);
+        goStraightInchesTout(8,2);
         robot.rightMotor.setPower(0);
         robot.leftMotor.setPower(0);
         goStraightInches(8);

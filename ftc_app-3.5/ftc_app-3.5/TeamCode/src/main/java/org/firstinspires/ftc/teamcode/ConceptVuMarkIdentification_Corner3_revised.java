@@ -94,16 +94,19 @@ public class ConceptVuMarkIdentification_Corner3_revised extends CommonDriverFun
         goStraightInches(variableDistance);
         turnRobotInDegrees(-90);
         goStraightInches(5);
-        robot.leftMotor.setPower(0);
-        robot.rightMotor.setPower(0);
+
         robot.ting2();
         robot.myServo.setPosition(1);
         robot.myServo2.setPosition(0);
 
-        goStraightInches(8);
-        robot.rightMotor.setPower(0);
-        robot.leftMotor.setPower(0);
-        goStraightInches(-8);
+        //---
+        goStraightInches(-6);
+        robot.myServo.setPosition(0.2);
+        robot.myServo2.setPosition(0.6);
+
+        goStraightInchesTout(14,2);
+
+        goStraightInches(-4);
     }
 
     @Override
@@ -115,11 +118,10 @@ public class ConceptVuMarkIdentification_Corner3_revised extends CommonDriverFun
         robot.jewelSensor.enableLed(bLedOn);
         setClawServoPositions1();
 
-
+        initArm();
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
-        initArm();
 
         waitForStart();
 

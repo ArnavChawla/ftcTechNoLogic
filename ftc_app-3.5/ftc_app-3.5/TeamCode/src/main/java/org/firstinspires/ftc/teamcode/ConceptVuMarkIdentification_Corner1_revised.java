@@ -87,15 +87,12 @@ public class ConceptVuMarkIdentification_Corner1_revised extends CommonDriverFun
         turnRobotInDegrees(90);
         goStraightInches(5);
 
-        robot.leftMotor.setPower(0);
-        robot.rightMotor.setPower(0);
         robot.ting2();
+
         robot.myServo.setPosition(1);
         robot.myServo2.setPosition(0);
 
-        goStraightInches(8);
-        robot.rightMotor.setPower(0);
-        robot.leftMotor.setPower(0);
+        goStraightInchesTout(8,2);
         goStraightInches(-8);
     }
 
@@ -127,12 +124,13 @@ public class ConceptVuMarkIdentification_Corner1_revised extends CommonDriverFun
         RelicRecoveryVuMark vuMark = getPictograph();
 
         telemetry.addData("VuMark", "%s visible", vuMark);
+        telemetry.update();
+
 
         if (opModeIsActive()) {
-
             gotoCryptoboxColumnAndDropGlyphCorner1(vuMark);
-
             telemetry.update();
         }
+
     }
 }

@@ -82,7 +82,17 @@ public class ConceptVuMarkIdentification_test_OpMode extends CommonDriverFunctio
 
 
         goStraightInches(10);
+        turnRobotInDegrees(-90);
+        goStraightInches(10);
+        turnRobotInDegrees(-90);
+        goStraightInches(10);
+        turnRobotInDegrees(-90);
+        goStraightInches(10);
+        turnRobotInDegrees(-90);
         telemetry.addData("Run complete", "");
+
+
+
 
         RelicRecoveryVuMark vumark = getPictograph();
         telemetry.addData("vumark visible: ", vumark);
