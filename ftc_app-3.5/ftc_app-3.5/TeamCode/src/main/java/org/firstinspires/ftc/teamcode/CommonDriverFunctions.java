@@ -85,7 +85,6 @@ public class CommonDriverFunctions extends LinearOpMode {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if(vuMark != RelicRecoveryVuMark.UNKNOWN)
             {
-
                 break;
             }
         }
