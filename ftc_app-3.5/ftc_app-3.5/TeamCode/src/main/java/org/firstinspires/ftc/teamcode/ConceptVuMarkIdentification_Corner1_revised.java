@@ -88,12 +88,15 @@ public class ConceptVuMarkIdentification_Corner1_revised extends CommonDriverFun
         goStraightInches(5);
 
         robot.ting2();
-
         robot.myServo.setPosition(1);
         robot.myServo2.setPosition(0);
 
-        goStraightInchesTout(8,2);
-        goStraightInches(-8);
+        goStraightInches(-6);
+        robot.myServo.setPosition(0.2);
+        robot.myServo2.setPosition(0.6);
+        goStraightInchesTout(14,2);
+        goStraightInches(-4);
+
     }
 
     @Override public void runOpMode() {
