@@ -91,11 +91,11 @@ public class ConceptVuMarkIdentification_Corner1_revised extends CommonDriverFun
         robot.myServo.setPosition(1);
         robot.myServo2.setPosition(0);
 
-        goStraightInches(-6);
+        /*goStraightInches(-6);
         robot.myServo.setPosition(0.2);
         robot.myServo2.setPosition(0.6);
         goStraightInchesTout(14,2);
-        goStraightInches(-4);
+        goStraightInches(-4); */
 
     }
 
