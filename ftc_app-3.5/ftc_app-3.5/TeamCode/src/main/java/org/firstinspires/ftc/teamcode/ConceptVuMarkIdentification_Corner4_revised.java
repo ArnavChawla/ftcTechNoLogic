@@ -76,18 +76,18 @@ public class ConceptVuMarkIdentification_Corner4_revised extends CommonDriverFun
         double variableDistance = 0;
         if(cryptoColumn == RelicRecoveryVuMark.LEFT)
         {
-            variableDistance = -27.5;
+            variableDistance = -24.4;
 
         }
         else if (cryptoColumn == RelicRecoveryVuMark.RIGHT)
         {
-            variableDistance = -42.5;
+            variableDistance = -39.4;
         }
         else
         {
             // whether center is recognized or whether vumark is not recognized, we go to the center
             // and drop the relic there
-            variableDistance = -35;
+            variableDistance = -31.9;
         }
         goStraightInches(variableDistance);
 
@@ -103,6 +103,11 @@ public class ConceptVuMarkIdentification_Corner4_revised extends CommonDriverFun
         goStraightInchesTout(8,2);
         robot.rightMotor.setPower(0);
         robot.leftMotor.setPower(0);
+        goStraightInches(-6);
+        robot.myServo.setPosition(0.2);
+        robot.myServo2.setPosition(0.6);
+        goStraightInchesTout(14,2);
+        goStraightInches(-4);
         goStraightInches(-8);
     }
 

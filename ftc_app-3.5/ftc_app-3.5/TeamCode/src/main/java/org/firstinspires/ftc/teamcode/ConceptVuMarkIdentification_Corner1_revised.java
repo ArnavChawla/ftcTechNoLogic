@@ -45,7 +45,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
  * @see ConceptVuforiaNavigation
  * @see VuforiaLocalizer
  * @see VuforiaTrackableDefaultListener
- * see  ftc_app/doc/tutorial/FTC_FieldCoordinateSystemDefinition.pdf
+ * see  ftc_app/doc/tutorial/FTC_FieldCoordinateSystemDefinition.pdfxx
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
@@ -69,18 +69,18 @@ public class ConceptVuMarkIdentification_Corner1_revised extends CommonDriverFun
         double variableDistance = 0;
         if(cryptoColumn == RelicRecoveryVuMark.LEFT)
         {
-            variableDistance = 38.5;
+            variableDistance = 35.4;
 
         }
         else if (cryptoColumn == RelicRecoveryVuMark.RIGHT)
         {
-            variableDistance = 23.5;
+            variableDistance = 20.4;
         }
         else
         {
             // whether center is recognized or whether vumark is not recognized, we go to the center
             // and drop the relic there
-            variableDistance = 31;
+            variableDistance = 27.9;
         }
 
         goStraightInches(variableDistance);
@@ -93,6 +93,12 @@ public class ConceptVuMarkIdentification_Corner1_revised extends CommonDriverFun
         robot.myServo2.setPosition(0);
 
         goStraightInchesTout(8,2);
+        //goStraightInches(-8);
+        goStraightInches(-6);
+        robot.myServo.setPosition(0.2);
+        robot.myServo2.setPosition(0.6);
+        goStraightInchesTout(14,2);
+        goStraightInches(-4);
         goStraightInches(-8);
     }
 

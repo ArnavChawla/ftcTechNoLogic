@@ -77,9 +77,9 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
     HardwarePushbot_TuesdayClass robot = new HardwarePushbot_TuesdayClass();
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime pictoTime = new ElapsedTime();
-    static final double     COUNTS_PER_MOTOR_REV    = 1220 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        static final double     COUNTS_PER_MOTOR_REV    = 1220 ;
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.3;
@@ -112,37 +112,10 @@ public class ConceptVuMarkIdentification_tuesday extends LinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-        // OR...  Do Not Activate the Camera Monitor View, to save power
-        // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        /*
-         * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
-         * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
-         * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
-         * web site at https://developer.vuforia.com/license-manager.
-         *
-         * Vuforia license keys are always 380 characters long, and look as if they contain mostly
-         * random data. As an example, here is a example of a fragment of a valid key:
-         *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-         * Once you've obtained a license key, copy the string from the Vuforia web site
-         * and paste it in to your code onthe next line, between the double quotes.
-         */
         parameters.vuforiaLicenseKey = "AY2KQyL/////AAAAGXS4X/lQOk/IjLKvqAMnGZwUa2bzXyB+9U0qpjzUtC75gupc1qaq33ijadEDvuneV699tFrKTLAf1n2FG39Mqjhf88N33OpPuJtyx0n41oPfecHfJUWKY2EptbsHIf/Ii0NsU4LeBd6W68KviHWJMf3I1bxyv6zqwrbB+emaFpC7loL1U+Etxby2DiT4GLRzJ5HZuhKw/Om+hgvZGC9iAsynldVLLzl40VEfVQV8RIGFm6Z+Dd/cILvSwFxZ60NpghZjEOz3Q3yM0OipQWJxEclf3gb984aOr8IbnlFtEJv4HAUfZF/t4eOu90BiXyhue6eXnxJZttd9FVtIa+m1AUvJKf4BaaZb5v0ovCXo5ABB\n";
 
-        /*
-         * We also indicate which camera on the RC that we wish to use.
-         * Here we chose the back (HiRes) camera (for greater range), but
-         * for a competition robot, the front camera might be more convenient.
-         */
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
-        /**
-         * Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
-         * in this data set: all three of the VuMarks in the game were created from this one template,
-         * but differ in their instance id information.
-         * @see VuMarkInstanceId
-         */
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary

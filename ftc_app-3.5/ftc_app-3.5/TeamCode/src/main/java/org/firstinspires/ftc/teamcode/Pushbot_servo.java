@@ -126,7 +126,8 @@ public class Pushbot_servo extends OpMode{
         //motor two needs negative power to go up
         //
 
-    } else if (gamepad1.left_trigger == 1)//go down button pressed
+    }
+    else if (gamepad1.left_trigger == 1)//go down button pressed
     {
         if(!robot.dSensor1.isPressed())//1st beam can move down
         {
@@ -148,7 +149,8 @@ public class Pushbot_servo extends OpMode{
                 telemetry. addLine("Motor two off");
             }
         }
-    } else{
+    }
+            else{
 
         robot.clawMotor2.setPower(0);
         robot.clawMotor1.setPower(0);
