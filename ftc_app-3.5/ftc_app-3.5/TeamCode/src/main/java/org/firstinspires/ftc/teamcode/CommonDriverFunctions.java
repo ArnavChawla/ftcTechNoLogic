@@ -58,10 +58,22 @@ public class CommonDriverFunctions extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, -distance/2, -distance/2, 10);
     }
 
+    public void moveLeftMotor(double distance)
+    {
+        encoderDriveOneMotor(DRIVE_SPEED, -distance/2, 0, 10);
+    }
+
+    public void moveRightMotor(double distance)
+    {
+        encoderDriveOneMotor(DRIVE_SPEED, 0, -distance/2, 10);
+    }
+
     public void goStraightInchesTout(double distance, double timeOut)
     {
         encoderDrive(DRIVE_SPEED, -distance/2, -distance/2, timeOut);
     }
+
+
     public void turnRobotInDegrees(double degrees)
     {
         double turnRatio = 4.8/90;
@@ -187,6 +199,73 @@ public class CommonDriverFunctions extends LinearOpMode {
 
             sleep(100);   // optional pause after each move
         }
+
+
+    }
+
+    public void encoderDriveOneMotor(double speed,
+                             double leftInches, double rightInches,
+                             double timeoutS) {
+        int newLeftTarget;
+        int newRightTarget;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+
+
+            // Turn On RUN_TO_POSITION
+            robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(20);
+            robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(20);
+
+
+            robot.leftMotor.setTargetPosition(newLeftTarget);
+            sleep(20);
+            robot.rightMotor.setTargetPosition(newRightTarget);
+            sleep(20);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            robot.leftMotor.setPower(speed);
+            sleep(20);
+            robot.rightMotor.setPower(speed);
+            sleep(20);
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // N    ote: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)  &&     (robot.leftMotor.isBusy() || robot.rightMotor.isBusy()) ) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                        robot.leftMotor.getCurrentPosition(),
+                        robot.rightMotor.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            robot.leftMotor.setPower(0);
+            sleep(20);
+            robot.rightMotor.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            //robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            sleep(100);   // optional pause after each move
+        }
+
+
     }
 
     public void initArm()

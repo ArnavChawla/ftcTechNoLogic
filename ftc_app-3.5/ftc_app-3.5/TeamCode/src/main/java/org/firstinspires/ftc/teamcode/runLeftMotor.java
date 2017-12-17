@@ -29,24 +29,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * This OpMode illustrates the basics of using the Vuforia engine to determine
@@ -67,77 +54,48 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Corner4_r", group ="Concept")
+@Autonomous(name="test left motor", group ="Concept")
 
-public class ConceptVuMarkIdentification_Corner4_revised extends CommonDriverFunctions {
+public class runLeftMotor extends CommonDriverFunctions {
 
-    public void gotoCryptoboxColumnAndDropGlyphCorner4(RelicRecoveryVuMark cryptoColumn)
+
+
+    /**a
+     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+     * localization engine.
+     */
+    VuforiaLocalizer vuforia;
+
+    public void runCorner1()
     {
-        double variableDistance = 0;
-        if(cryptoColumn == RelicRecoveryVuMark.LEFT)
-        {
-            variableDistance = -24.4;
 
-        }
-        else if (cryptoColumn == RelicRecoveryVuMark.RIGHT)
-        {
-            variableDistance = -39.4;
-        }
-        else
-        {
-            // whether center is recognized or whether vumark is not recognized, we go to the center
-            // and drop the relic there
-            variableDistance = -31.9;
-        }
-        goStraightInches(variableDistance);
-
-        turnRobotInDegrees(90);
-
-        goStraightInches(5);
-        robot.rightMotor.setPower(0);
-        robot.leftMotor.setPower(0);
-        robot.ting2();
-        robot.myServo.setPosition(1);
-        robot.myServo2.setPosition(0);
-
-        goStraightInchesTout(8,2);
-        robot.rightMotor.setPower(0);
-        robot.leftMotor.setPower(0);
-        goStraightInches(-6);
-        robot.myServo.setPosition(0.2);
-        robot.myServo2.setPosition(0.6);
-        goStraightInchesTout(14,2);
-        goStraightInches(-6);
-        //goStraightInches(-8);
     }
 
     @Override public void runOpMode() {
         robot.init(hardwareMap);
 
-
-	   boolean bLedOn = true;
-        // Set the LED in the beginning
-        robot.jewelSensor.enableLed(bLedOn);
-		
-		initArm();
-        setClawServoPositions1();
-
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
+
         waitForStart();
 
 
-        setClawServoPositions2();
-        robot.ting();
-		extendArm();
-        ThrowJewelBlueTile();
-        retractArm();
-        RelicRecoveryVuMark vuMark = getPictograph();
+         moveLeftMotor(20);
+//        turnRobotInDegrees(-90);
+//        goStraightInches(10);
+//        turnRobotInDegrees(-90);
+//        goStraightInches(10);
+//        turnRobotInDegrees(-90);
+//        goStraightInches(10);
+//        turnRobotInDegrees(-90);
+        telemetry.addData("Run complete", "");
 
-        if (opModeIsActive()) {
 
-            gotoCryptoboxColumnAndDropGlyphCorner4(vuMark);
-            telemetry.update();
-        }
-   }
+
+
+        RelicRecoveryVuMark vumark = getPictograph();
+        telemetry.addData("vumark visible: ", vumark);
+        telemetry.update();
+
+    }
 }

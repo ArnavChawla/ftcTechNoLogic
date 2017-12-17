@@ -81,14 +81,16 @@ public class ConceptVuMarkIdentification_test_OpMode extends CommonDriverFunctio
         waitForStart();
 
 
-        goStraightInches(10);
+        goStraightInches(30);
+        sleep(5000);
         turnRobotInDegrees(-90);
-        goStraightInches(10);
-        turnRobotInDegrees(-90);
-        goStraightInches(10);
-        turnRobotInDegrees(-90);
-        goStraightInches(10);
-        turnRobotInDegrees(-90);
+//        turnRobotInDegrees(-90);
+//        goStraightInches(10);
+//        turnRobotInDegrees(-90);
+//        goStraightInches(10);
+//        turnRobotInDegrees(-90);
+//        goStraightInches(10);
+//        turnRobotInDegrees(-90);
         telemetry.addData("Run complete", "");
 
 
